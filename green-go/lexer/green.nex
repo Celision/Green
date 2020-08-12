@@ -1,0 +1,59 @@
+<   {
+}
+/* Code inspired by https://github.com/skycoin/cx */
+
+/* newline capture */
+/(\n)/ {
+    lval.line++
+    lineNo++
+    if token != NEWLINE {
+        return token
+    }
+}
+/(\t*| *|\r)/ {
+    /* skip whitespace */
+}
+/(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)|\/\/[^\n\r]*/ {
+    /* skips comments */
+    count := 0
+    s := []byte(yylex.Text())
+    for i := 0; i < len(s); i++ {
+        if s[i] == '\n' {
+            count++
+        }
+    }
+    lineNo += count
+    lval.line += count
+}
+/**
+ * KEYWORD LIST (for sanity):
+ * import package type func map var break continue if else
+ * for struct const iota return str bool
+ * i8 ui8 i16 ui16 i32 ui32 i64 ui64 f32 f64 byte
+ * int8 uint8 int16 uint16 int32 uint32 int64 uint64 float double
+ * string int uint true false 
+ * range nil binary 
+ *
+ * UNUSED KEYWORDS, RESERVED FOR POTENTIAL USE:
+ * register volatile atomic switch case default aff on 
+ * poly async cx green lime mat in while goto tag sizeof typeof
+ *
+ * SYMBOL LIST:
+ * +  -  *  /  %  &  |  ^  &^ !  && || >  <  >= <= == !=
+ * ++ -- -> (  )  [  ]  {  }  := =  >> << -> += -= *= /=
+ * %= &= |= ^= ;  ?  ,  .
+ * &^= >>= <<=
+ *
+ * RESERVED SYMBOLS:
+ * @  (for protocol labeling)
+ * $  (for self identification in polymorphic codes)
+ * #  (for inference, affordances)
+ * :: (for constructing linked lists)
+ * [] (an empty list)
+ * ?= (possible automatic typecasting for polymorphic variables)
+ * ~  (not operator)
+ * ~= (not equals)
+ * ... (ellipses, like in golang)
+ * `  (creating variable or type tags)
+ * 
+ */
