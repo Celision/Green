@@ -14,6 +14,6 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	parse.Fprint(os.Stdout, ast, true)
+	parse.Fdump(os.Stdout, ast)
 	//os.Stdout
 }

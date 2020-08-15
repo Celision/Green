@@ -1,1 +1,9 @@
 package test
+
+poly Expression {
+    
+}
+
+func main()() {
+    
+}

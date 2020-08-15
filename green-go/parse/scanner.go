@@ -376,14 +376,18 @@ func (s *scanner) atIdentChar(first bool) bool {
 
 //hash is a perfect hash function for keywords.
 func hash(s []byte) uint {
-	return (uint(s[0])<<4 ^ uint(s[1]) + uint(len(s))) & uint(len(keywordMap)-1)
+	return (uint(s[0])<<5 ^ uint(s[1]) + uint(len(s))) & uint(len(keywordMap)-1)
 }
 
-var keywordMap [1 << 6]token // size must be power of two
+var keywordMap [1 << 10]token // size must be power of two
 
 func init() {
 	// populate keywordMap
-	for tok := _Break; tok <= _Var; tok++ {
+	/*for tok := _Aff; tok <= _While; tok++ {
+		fmt.Println(tok)
+	}*/
+	for tok := _Aff; tok <= _While; tok++ {
+		//fmt.Println(tok)
 		h := hash([]byte(tok.String()))
 		if keywordMap[h] != 0 {
 			panic("imperfect hash")
