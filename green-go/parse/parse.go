@@ -1614,6 +1614,8 @@ func (p *parser) polyField(ptyp *PolyType) {
 		if p.tok == _Self {
 			x := p.newName(f.Name.Value)
 			f.TupleType = append(f.TupleType, x)
+			//remember to consume _Self
+			p.want(_Self)
 		} else {
 			x := p.type_()
 			f.TupleType = append(f.TupleType, x)
