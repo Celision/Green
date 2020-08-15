@@ -73,6 +73,7 @@ const (
 
 	//arrow for poly
 	_Generate //->
+	_Access   //::
 	//empty line comment to exclude it from .String
 	tokenCount //
 )

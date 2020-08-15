@@ -325,6 +325,12 @@ type (
 		node
 	}
 
+	PolyExpr struct {
+		Name     *Name
+		ElemList []Expr
+		expr
+	}
+
 	PolyType struct {
 		FieldList []*PolyField
 		expr

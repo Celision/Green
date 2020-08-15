@@ -275,6 +275,10 @@ func (p *printer) printNode(n Node) {
 			len = n.Len
 		}
 		p.print(_Lbrack, len, _Rbrack, n.Elem)
+	case *PolyExpr:
+		p.print(n.Name, _Lparen)
+		p.printExprList(n.ElemList)
+		p.print(_Rparen)
 	case *SliceType:
 		p.print(_Lbrack, _Rbrack, n.Elem)
 	case *DotsType:

@@ -140,6 +140,10 @@ redo:
 			s.nextch()
 			s.tok = _Define
 			break
+		} else if s.ch == ':' {
+			s.nextch()
+			s.tok = _Access
+			break
 		}
 		s.tok = _Colon
 	case '#':

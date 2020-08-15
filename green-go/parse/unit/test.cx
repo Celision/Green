@@ -2,6 +2,7 @@ package test
 
 poly Expression {
     Int(int)
+    DoubleInt(int, int)
     Add($, $)
 }
 
@@ -12,8 +13,18 @@ poly (Expression) get() int {
     Int(x) -> {
         return x
     }
+    DoubleInt(x, y) -> {
+        if x > y {
+            return x
+        } else {
+            return y
+        }
+    }
 }
 
 func main()() {
-    
+    var e Expression = Expression::DoubleInt{1, 2}
+    for ;; {
+
+    }
 }

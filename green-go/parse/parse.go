@@ -1013,6 +1013,14 @@ loop:
 				p.syntaxError("expecting name")
 				p.advance(_Semi, _Rparen)
 			}
+		case _Access:
+			p.next()
+			l := new(PolyExpr)
+			l.pos = pos
+			l.Name = p.name()
+			cp := p.complitexpr()
+			l.ElemList = cp.ElemList
+			x = l
 		case _Lbrack:
 			p.next()
 			p.xnest++
