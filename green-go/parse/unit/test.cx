@@ -1,7 +1,17 @@
 package test
 
 poly Expression {
-    Int($)
+    Int(int)
+    Add($, $)
+}
+
+poly (Expression) get() int {
+    Add(x, y) -> {
+        return x.get() + y.get()
+    }
+    Int(x) -> {
+        return x
+    }
 }
 
 func main()() {

@@ -178,6 +178,7 @@ redo:
 	case '-':
 		s.nextch()
 		if s.ch == '>' {
+			s.nextch()
 			s.tok = _Generate
 			break
 		}

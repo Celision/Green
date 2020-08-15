@@ -732,6 +732,9 @@ func (p *parser) polyEvalOrNil() *PolyEvalDecl {
 	f.RecvName = p.name()
 	p.want(_Rparen)
 
+	//2020/08/15 03:15 GMT-4 (Geoffrey Kublin) -- oops.
+	f.Name = p.name()
+
 	f.Type = p.funcType()
 	if p.tok == _Lbrace {
 		f.Body = p.polyEvalBody()
