@@ -144,6 +144,15 @@ func (t *Type) SetNoalg(b bool)      { t.flags.set(typeNoalg, b) }
 func (t *Type) SetDeferwidth(b bool) { t.flags.set(typeDeferwidth, b) }
 func (t *Type) SetRecur(b bool)      { t.flags.set(typeRecur, b) }
 
+/**
+ * From this point forward, support for
+ * struct embedding, interfaces, chans,
+ * goroutines/greenroutines, and defer
+ * is going to be dropped until a later
+ * date when implementation of such is
+ * more doable.
+ */
+
 //Pkg returns the package t appeared in
 //only defined for function, struct, interface, polystruct, and polyeval types.
 //This info is used for the green/types API once it is exposed.
@@ -153,8 +162,6 @@ func (t *Type) Pkg() *Pkg {
 		return t.Extra.(*Func).pkg
 	case TSTRUCT:
 		return t.Extra.(*Struct).pkg
-	case TINTER:
-		return t.Extra.(*Interface).pkg
 	case TPOLYEVAL:
 		return t.Extra.(*PolyEval).pkg
 	case TPOLYSTRUCT:
@@ -163,4 +170,40 @@ func (t *Type) Pkg() *Pkg {
 		Fatalf("Pkg: unexpected kind: %v", t)
 		return nil
 	}
+}
+
+//TODO(CALLISTER) -- implement the above.
+
+func (t *Type) SetPkg(pkg *Pkg) {
+	switch t.Etype {
+	case TFUNC:
+		t.Extra.(*Func).pkg = pkg
+	case TSTRUCT:
+		t.Extra.(*Struct).pkg = pkg
+	case TPOLYEVAL:
+		t.Extra.(*PolyEval).pkg = pkg
+	case TPOLYSTRUCT:
+		t.Extra.(*PolyStruct).pkg = pkg
+	default:
+		Fatalf("Pkg: unexpected kind: %v", t)
+	}
+}
+
+type Map struct {
+	Key  *Type
+	Elem *Type
+
+	Bucket *Type //internal struct type representing hash bucket
+	Hmap   *Type //internal struct type representing map header
+	Hiter  *Type //internal struct type representing hash iterator state
+}
+
+func (t *Type) MapType() *Map {
+	t.wantEtype(TMAP)
+	return t.Extra.(*Map)
+}
+
+type Forward struct {
+	Copyto      []*Type  //where to copy the eventual value to
+	Embedlineno src.XPos //first use of this type as an embeded type
 }
